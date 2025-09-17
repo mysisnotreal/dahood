@@ -10,14 +10,20 @@ local RenderStepped = RunService.RenderStepped;
 local LocalPlayer = Players.LocalPlayer;
 local Mouse = LocalPlayer:GetMouse();
 
+for _, existingUI in ipairs(CoreGui:GetChildren()) do
+    if existingUI.Name == "mys.client.dahood" then
+        existingUI:Destroy()
+    end
+end
+
 local ProtectGui = protectgui or (syn and syn.protect_gui) or (function() end);
 
-local ScreenGui = Instance.new('ScreenGui');
-ProtectGui(ScreenGui);
+local mys.client.dahood = Instance.new('ScreenGui');
+ProtectGui(mys.client.dahood);
 
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global;
-ScreenGui.Parent = CoreGui;
-ScreenGui.DisplayOrder = 100
+mys.client.dahood.ZIndexBehavior = Enum.ZIndexBehavior.Global;
+mys.client.dahood.Parent = CoreGui;
+mys.client.dahood.DisplayOrder = 100
 
 local Toggles = {};
 local Options = {};
@@ -45,7 +51,7 @@ local Library = {
     DependencyBoxes = {};
 
     Signals = {};
-    ScreenGui = ScreenGui;
+    mys.client.dahood = mys.client.dahood;
 };
 
 local RainbowStep = 0
@@ -199,7 +205,7 @@ function Library:AddToolTip(InfoStr, HoverInstance)
 
         Size = UDim2.fromOffset(X + 5, Y + 4),
         ZIndex = 100,
-        Parent = Library.ScreenGui,
+        Parent = Library.mys.client.dahood,
 
         Visible = false,
     })
@@ -393,14 +399,14 @@ function Library:Unload()
         Library.OnUnload()
     end
 
-    ScreenGui:Destroy()
+    mys.client.dahood:Destroy()
 end
 
 function Library:OnUnload(Callback)
     Library.OnUnload = Callback
 end
 
-Library:GiveSignal(ScreenGui.DescendantRemoving:Connect(function(Instance)
+Library:GiveSignal(mys.client.dahood.DescendantRemoving:Connect(function(Instance)
     if Library.RegistryMap[Instance] then
         Library:RemoveFromRegistry(Instance);
     end;
@@ -455,7 +461,7 @@ do
         });
 
         -- 1/16/23
-        -- Rewrote this to be placed inside the Library ScreenGui
+        -- Rewrote this to be placed inside the Library mys.client.dahood
         -- There was some issue which caused RelativeOffset to be way off
         -- Thus the color picker would never show
 
@@ -467,7 +473,7 @@ do
             Size = UDim2.fromOffset(230, Info.Transparency and 271 or 253);
             Visible = false;
             ZIndex = 15;
-            Parent = ScreenGui,
+            Parent = mys.client.dahood,
         });
 
         DisplayFrame:GetPropertyChangedSignal('AbsolutePosition'):Connect(function()
@@ -676,7 +682,7 @@ do
                 ZIndex = 14,
 
                 Visible = false,
-                Parent = ScreenGui
+                Parent = mys.client.dahood
             })
 
             ContextMenu.Inner = Library:Create('Frame', {
@@ -1062,7 +1068,7 @@ do
             Size = UDim2.new(0, 60, 0, 45 + 2);
             Visible = false;
             ZIndex = 14;
-            Parent = ScreenGui;
+            Parent = mys.client.dahood;
         });
 
         ToggleLabel:GetPropertyChangedSignal('AbsolutePosition'):Connect(function()
@@ -2284,7 +2290,7 @@ do
             BorderColor3 = Color3.new(0, 0, 0);
             ZIndex = 20;
             Visible = false;
-            Parent = ScreenGui;
+            Parent = mys.client.dahood;
         });
 
         local function RecalculateListPosition()
@@ -2699,7 +2705,7 @@ do
         Position = UDim2.new(0, 0, 0, 40);
         Size = UDim2.new(0, 300, 0, 200);
         ZIndex = 100;
-        Parent = ScreenGui;
+        Parent = mys.client.dahood;
     });
 
     Library:Create('UIListLayout', {
@@ -2715,7 +2721,7 @@ do
         Size = UDim2.new(0, 213, 0, 20);
         ZIndex = 200;
         Visible = false;
-        Parent = ScreenGui;
+        Parent = mys.client.dahood;
     });
 
     local WatermarkInner = Library:Create('Frame', {
@@ -2780,7 +2786,7 @@ do
         Size = UDim2.new(0, 210, 0, 20);
         Visible = false;
         ZIndex = 100;
-        Parent = ScreenGui;
+        Parent = mys.client.dahood;
     });
 
     local KeybindInner = Library:Create('Frame', {
@@ -2981,7 +2987,7 @@ function Library:CreateWindow(...)
         Size = Config.Size,
         Visible = false;
         ZIndex = 1;
-        Parent = ScreenGui;
+        Parent = mys.client.dahood;
     });
 
     Library:MakeDraggable(Outer, 25);
@@ -3514,7 +3520,7 @@ function Library:CreateWindow(...)
         Visible = true;
         Text = '';
         Modal = false;
-        Parent = ScreenGui;
+        Parent = mys.client.dahood;
     });
 
     local TransparencyCache = {};
@@ -3550,7 +3556,7 @@ function Library:CreateWindow(...)
                 CursorOutline.Color = Color3.new(0, 0, 0);
                 CursorOutline.Visible = true;
 
-                while Toggled and ScreenGui.Parent do
+                while Toggled and mys.client.dahood.Parent do
                     InputService.MouseIconEnabled = false;
 
                     local mPos = InputService:GetMouseLocation();
