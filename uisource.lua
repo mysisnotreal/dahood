@@ -22,6 +22,7 @@ local mys.client.dahood = Instance.new('ScreenGui');
 ProtectGui(mys.client.dahood);
 
 mys.client.dahood.ZIndexBehavior = Enum.ZIndexBehavior.Global;
+mys.client.dahood.Name = "mys.client.dahood"
 mys.client.dahood.Parent = CoreGui;
 mys.client.dahood.DisplayOrder = 100
 
