@@ -10,12 +10,6 @@ local RenderStepped = RunService.RenderStepped;
 local LocalPlayer = Players.LocalPlayer;
 local Mouse = LocalPlayer:GetMouse();
 
-for _, existingUI in ipairs(CoreGui:GetChildren()) do
-    if existingUI.Name == "mys.client.dahood" then
-        existingUI:Destroy()
-    end
-end
-
 local ProtectGui = protectgui or (syn and syn.protect_gui) or (function() end);
 
 local mys.client.dahood = Instance.new('ScreenGui');
@@ -24,6 +18,12 @@ ProtectGui(mys.client.dahood);
 mys.client.dahood.ZIndexBehavior = Enum.ZIndexBehavior.Global;
 mys.client.dahood.Parent = CoreGui;
 mys.client.dahood.DisplayOrder = 100
+
+for _, existingUI in ipairs(CoreGui:GetChildren()) do
+    if existingUI.Name == "mys.client.dahood" then
+        Library:Unload()
+    end
+end
 
 local Toggles = {};
 local Options = {};
