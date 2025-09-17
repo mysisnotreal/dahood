@@ -2062,24 +2062,35 @@ do
             Fill.BorderColor3 = Library.AccentColorDark;
         end;
 
-            function Slider:Display()
-                local Suffix = Info.Suffix or '';
+        local activeTween
 
-                if Info.Compact then
-                    DisplayLabel.Text = Info.Text .. ': ' .. Slider.Value .. Suffix
-                elseif Info.HideMax then
-                    DisplayLabel.Text = string.format('%s', Slider.Value .. Suffix)
-                else
-                    DisplayLabel.Text = string.format('%s/%s', Slider.Value .. Suffix, Slider.Max .. Suffix);
-                end
+        function Slider:Display()
+            local Suffix = Info.Suffix or ''
 
-                local X = math.ceil(Library:MapValue(Slider.Value, Slider.Min, Slider.Max, 0, Slider.MaxSize));
+            if Info.Compact then
+                DisplayLabel.Text = Info.Text .. ': ' .. Slider.Value .. Suffix
+            elseif Info.HideMax then
+                DisplayLabel.Text = string.format('%s', Slider.Value .. Suffix)
+            else
+                DisplayLabel.Text = string.format('%s/%s', Slider.Value .. Suffix, Slider.Max .. Suffix)
+            end
 
-                local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-                TweenService:Create(Fill, tweenInfo, {Size = UDim2.new(0, X, 1, 0)}):Play()
+            local X = math.ceil(Library:MapValue(Slider.Value, Slider.Min, Slider.Max, 0, Slider.MaxSize))
+            local newSize = UDim2.new(0, X, 1, 0)
 
-                HideBorderRight.Visible = not (X == Slider.MaxSize or X == 0);
-            end;
+            if activeTween then
+                activeTween:Cancel()
+            end
+
+            -- Only tween if the size is actually different
+            if Fill.Size ~= newSize then
+                local tweenInfo = TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+                activeTween = TweenService:Create(Fill, tweenInfo, { Size = newSize })
+                activeTween:Play()
+            end
+
+            HideBorderRight.Visible = not (X == Slider.MaxSize or X == 0)
+        end;
 
         function Slider:OnChanged(Func)
             Slider.Changed = Func;
