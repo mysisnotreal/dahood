@@ -2082,9 +2082,8 @@ do
                 activeTween:Cancel()
             end
 
-            -- Only tween if the size is actually different
             if Fill.Size ~= newSize then
-                local tweenInfo = TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+                local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
                 activeTween = TweenService:Create(Fill, tweenInfo, { Size = newSize })
                 activeTween:Play()
             end
