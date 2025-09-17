@@ -10,6 +10,8 @@ local RenderStepped = RunService.RenderStepped
 local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 
+local Library = {}
+
 for _, existingUI in ipairs(CoreGui:GetChildren()) do
     if existingUI.Name == "mys.client.dahood" then
         if Library and Library.Unload then
